@@ -148,7 +148,9 @@
     "tui:dev": "OPENCLAW_PROFILE=dev CLAWDBOT_PROFILE=dev node scripts/run-node.mjs --dev tui",
     "ui:build": "node scripts/ui.js build",
     "ui:dev": "node scripts/ui.js dev",
-    "ui:install": "node scripts/ui.js install"
+    "ui:dev": "node scripts/ui.js dev",
+    "ui:install": "node scripts/ui.js install",
+    "windows:build": "echo 'This script is intended to run on Windows via GitHub Actions.' && exit 0"
   },
   "dependencies": {
     "@agentclientprotocol/sdk": "0.13.1",
