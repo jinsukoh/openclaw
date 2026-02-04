@@ -40,10 +40,7 @@ jobs:
         shell: cmd
 
       - name: Build Windows Installer
-        working-directory: apps/windows
-        run: |
-          pnpm install
-          pnpm build
+        run: pnpm --filter openclaw-windows build
 
       - name: Upload Installer Artifact
         uses: actions/upload-artifact@v4

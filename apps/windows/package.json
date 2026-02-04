@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "private": true,
     "description": "Windows wrapper for OpenClaw",
+    "author": "OpenClaw Team",
     "main": "dist/main.js",
     "scripts": {
         "build": "tsc && electron-builder build --win --x64",
