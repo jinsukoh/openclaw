@@ -39,6 +39,9 @@ jobs:
           xcopy /E /I dist apps\windows\backend\dist
         shell: cmd
 
+      - name: Bundle Backend
+        run: pnpm tsx scripts/bundle-backend.ts
+
       - name: Build Windows Installer
         run: pnpm --filter openclaw-windows build
 
