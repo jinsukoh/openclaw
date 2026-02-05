@@ -43,7 +43,7 @@ async function bundle() {
             sourcemap: true,
             logLevel: "info",
             banner: {
-                js: "import { createRequire } from 'module'; const require = createRequire(import.meta.url);",
+                js: "import { createRequire as _createRequire } from 'module'; const require = _createRequire(import.meta.url);",
             },
         });
         console.log(`Backend bundled successfully to: ${outFile}`);
