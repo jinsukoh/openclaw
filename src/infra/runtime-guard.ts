@@ -10,12 +10,14 @@ type Semver = {
 };
 
 const MIN_NODE: Semver = { major: 22, minor: 0, patch: 0 };
+const MIN_NODE_ELECTRON: Semver = { major: 20, minor: 0, patch: 0 };
 
 export type RuntimeDetails = {
   kind: RuntimeKind;
   version: string | null;
   execPath: string | null;
   pathEnv: string;
+  electronVersion: string | null;
 };
 
 const SEMVER_RE = /(\d+)\.(\d+)\.(\d+)/;
@@ -52,18 +54,24 @@ export function isAtLeast(version: Semver | null, minimum: Semver): boolean {
 export function detectRuntime(): RuntimeDetails {
   const kind: RuntimeKind = process.versions?.node ? "node" : "unknown";
   const version = process.versions?.node ?? null;
+  const electronVersion = process.versions?.electron ?? null;
 
   return {
     kind,
     version,
     execPath: process.execPath ?? null,
     pathEnv: process.env.PATH ?? "(not set)",
+    electronVersion,
   };
 }
 
 export function runtimeSatisfies(details: RuntimeDetails): boolean {
   const parsed = parseSemver(details.version);
   if (details.kind === "node") {
+    // If running in Electron, allow older Node version (bundled in Electron)
+    if (details.electronVersion) {
+      return isAtLeast(parsed, MIN_NODE_ELECTRON);
+    }
     return isAtLeast(parsed, MIN_NODE);
   }
   return false;
@@ -85,10 +93,11 @@ export function assertSupportedRuntime(
   const runtimeLabel =
     details.kind === "unknown" ? "unknown runtime" : `${details.kind} ${versionLabel}`;
   const execLabel = details.execPath ?? "unknown";
+  const requiredLabel = details.electronVersion ? ">=20.0.0 (Electron)" : ">=22.0.0";
 
   runtime.error(
     [
-      "openclaw requires Node >=22.0.0.",
+      `openclaw requires Node ${requiredLabel}.`,
       `Detected: ${runtimeLabel} (exec: ${execLabel}).`,
       `PATH searched: ${details.pathEnv}`,
       "Install Node: https://nodejs.org/en/download",
