@@ -63,6 +63,18 @@ async function bundle() {
         } else {
             console.warn(`Warning: Extensions directory not found at ${extensionsDir}`);
         }
+
+        // Copy docs directory (required for templates like AGENTS.md)
+        const docsDir = path.join(projectRoot, "docs");
+        const outDocsDir = path.join(outDir, "docs");
+
+        if (fs.existsSync(docsDir)) {
+            console.log(`Copying docs from ${docsDir} to ${outDocsDir}...`);
+            fs.cpSync(docsDir, outDocsDir, { recursive: true });
+            console.log("Docs copied successfully.");
+        } else {
+            console.warn(`Warning: Docs directory not found at ${docsDir}`);
+        }
     } catch (e) {
         console.error("Bundling failed:", e);
         process.exit(1);
