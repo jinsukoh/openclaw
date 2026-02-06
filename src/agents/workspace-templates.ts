@@ -41,6 +41,8 @@ export async function resolveWorkspaceTemplateDir(opts?: {
     const candidates = [
       packageRoot ? path.join(packageRoot, "docs", "reference", "templates") : null,
       cwd ? path.resolve(cwd, "docs", "reference", "templates") : null,
+      // For bundled app where docs are copied next to the entry point (dist/docs)
+      path.resolve(path.dirname(fileURLToPath(moduleUrl)), "docs/reference/templates"),
       FALLBACK_TEMPLATE_DIR,
     ].filter(Boolean) as string[];
 
