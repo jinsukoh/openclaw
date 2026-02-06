@@ -47,6 +47,19 @@ async function bundle() {
             },
         });
         console.log(`Backend bundled successfully to: ${outFile}`);
+
+        // Copy extensions directory
+        const extensionsDir = path.join(projectRoot, "extensions");
+        const outExtensionsDir = path.join(outDir, "../extensions"); // sibling to dist, e.g. apps/windows/backend/extensions
+
+        if (fs.existsSync(extensionsDir)) {
+            console.log(`Copying extensions from ${extensionsDir} to ${outExtensionsDir}...`);
+            // fs.cpSync was added in Node 16.7.0
+            fs.cpSync(extensionsDir, outExtensionsDir, { recursive: true });
+            console.log("Extensions copied successfully.");
+        } else {
+            console.warn(`Warning: Extensions directory not found at ${extensionsDir}`);
+        }
     } catch (e) {
         console.error("Bundling failed:", e);
         process.exit(1);
