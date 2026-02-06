@@ -33,7 +33,7 @@
             "output": "dist-installer"
         },
         "asarUnpack": [
-            "backend/**/*"
+            "**/*"
         ],
         "files": [
             "dist/**/*",
