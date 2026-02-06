@@ -87,7 +87,12 @@ function startBackend() {
         return;
     }
 
-    serverProcess = child_process.fork(backendPath, [], {
+    // Pass through arguments from the CLI
+    // In dev: [electron binary, main script, ...args]
+    // In prod: [executable, ...args]
+    const args = isDev ? process.argv.slice(2) : process.argv.slice(1);
+
+    serverProcess = child_process.fork(backendPath, args, {
         env: { ...process.env, OPENCLAW_IS_ELECTRON: '1' },
         stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
     });
