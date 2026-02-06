@@ -94,7 +94,7 @@ function startBackend() {
 
     serverProcess = child_process.fork(backendPath, args, {
         env: { ...process.env, OPENCLAW_IS_ELECTRON: '1' },
-        stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
+        stdio: ['inherit', 'pipe', 'pipe', 'ipc'], // Inherit stdin for interactive prompts
     });
 
     serverProcess.stdout?.on('data', (data) => console.log(`Backend: ${data}`));
