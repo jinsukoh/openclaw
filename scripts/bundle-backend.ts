@@ -55,7 +55,10 @@ async function bundle() {
         if (fs.existsSync(extensionsDir)) {
             console.log(`Copying extensions from ${extensionsDir} to ${outExtensionsDir}...`);
             // fs.cpSync was added in Node 16.7.0
-            fs.cpSync(extensionsDir, outExtensionsDir, { recursive: true });
+            fs.cpSync(extensionsDir, outExtensionsDir, {
+                recursive: true,
+                filter: (source) => path.basename(source) !== 'node_modules'
+            });
             console.log("Extensions copied successfully.");
         } else {
             console.warn(`Warning: Extensions directory not found at ${extensionsDir}`);
