@@ -32,6 +32,9 @@
         "directories": {
             "output": "dist-installer"
         },
+        "asarUnpack": [
+            "backend/**/*"
+        ],
         "files": [
             "dist/**/*",
             "backend/**/*",
